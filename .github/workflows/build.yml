@@ -32,6 +32,9 @@ jobs:
           pnpm run build
           cp -r dist/management-portal-clr docker/static
 
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v4
+
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v4
         
@@ -47,5 +50,6 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: docker
+          platforms: linux/amd64,linux/arm64
           tags: ghcr.io/maritimeconnectivity/management-portal-clr
           push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
